@@ -14,7 +14,7 @@ const MovieCast = () => {
       const { data } = await axios.get(
         `https://api.themoviedb.org/3/movie/${MovieId}/credits?api_key=${Api_key}&language=en-US`
       );
-      console.log(data);
+      //console.log(data);
       setMovieCasts(data.cast);
       setLoader(false);
     } catch (error) {
@@ -28,16 +28,21 @@ const MovieCast = () => {
   return (
     <>
       <div className="w-full h-full p-6 bg-neutral-600 md:flex flex flex-wrap ">
+        {loader & !MovieCasts ? (
+          <div>
+            <img src="Loader.gif" alt="" />
+          </div>
+        ) : null}
         {MovieCasts.slice(0, 8).map((m) => (
           <div key={m.id} className="md:w-1/4 my-2 ">
             <div className="">
               <img
                 src={`https://image.tmdb.org/t/p/w500${m.profile_path}`}
                 alt={m.name}
-                className="md:w-[48%] w-[30%] md:h-[20%] h-[25%] "
+                className="md:w-[48%] w-[45%] md:h-[20%] h-[25%] "
               />
             </div>
-            <div className="text-sm md:text-auto md:w-[45%] w-30%">
+            <div className="text-sm md:text-auto md:w-[45%] w-30% ">
               <p>{m.name}</p>
               <p>character:{m.character}</p>
             </div>

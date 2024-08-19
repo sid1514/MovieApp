@@ -5,6 +5,7 @@ import MovieCast from "./MovieCast";
 
 const MovieData = () => {
   const [MovieDetails, setMovieDetails] = useState([]);
+  const [MovieGenres, setMovieGenres] = useState([]);
   const [loader, setLoader] = useState(false);
   const MovieId = useSelector((state) => state.MovieId);
   const Api_key = process.env.REACT_APP_API_KEY;
@@ -14,28 +15,29 @@ const MovieData = () => {
       const { data } = await axios.get(
         `https://api.themoviedb.org/3/movie/${MovieId}?api_key=${Api_key}&language=en-US`
       );
-      //console.log(data);
+     
       setMovieDetails(data);
+      setMovieGenres(data.genres)
       setLoader(false);
     } catch (error) {
       console.log(error);
     }
   };
-
+ console.log(MovieGenres);
   useEffect(() => {
     fetchSelctedMovie();
   }, []);
 
   return (
     <>
-      <div className="w-full h-full text-white md:p-4 bg-grey-600">
+      <div className="w-11/12 h-full text-white md:p-4 bg-gradient-to-r from-neutral-700 via-neutral-800 to-neutral-900 p-2">
         {loader & !MovieDetails ? (
           <div>
             <img src="Loader.gif" alt="" />
           </div>
         ) : null}
         <div
-          className="bgImgSize md:m-4 md:p-4 flex md:bg-right bg-auto bg-no-repeat bg-blend-screen w-11/12"
+          className="bgImgSize md:m-4 md:p-4 flex md:bg-right bg-auto bg-no-repeat bg-blend-screen"
           style={{
             backgroundImage: `url(https://image.tmdb.org/t/p/w500${MovieDetails.backdrop_path})`,
           }}
@@ -46,24 +48,39 @@ const MovieData = () => {
                 <img
                   src={`https://image.tmdb.org/t/p/w500${MovieDetails.poster_path}`}
                   alt=""
-                  className="h-10/12 w-1/3 shadow-lg"
+                  className="md:h-10/12 h-9/12 w-1/2 shadow-lg"
                 />
-                <div className="text-sm md:text-auto font-bold">
-                  <p>{MovieDetails.original_title}</p>
-                  <p>{MovieDetails.vote_average}</p>
-                  <p>{MovieDetails.runtime}</p>
+                <div className=" md:text-auto w-full">
+                  <p className="font-semibold md:text-xl text-auto">
+                    {MovieDetails.original_title}
+                  </p>
+                  <p className="pt-2 text-blue-500 font-semibold text-sm md:text-auto">
+                    Rating: {MovieDetails.vote_average}
+                  </p>
+                  <div className="flex ">
+                    <p className="pt-3 text-sm md:text-auto mr-1">
+                      {MovieDetails.runtime} min  |
+                    </p>
+                    {MovieGenres.map((g) => (
+                      <p className="pt-3 text-sm "> {g.name},</p>
+                    ))}
+                  </div>
+
+                  <p className="pt-3 text-sm md:text-auto">
+                    Release date:{MovieDetails.release_date}
+                  </p>
                 </div>
               </div>
             </div>
-            <div className="md:w-2/3 text-sm md:text-auto mb-4 md:mt-0 mt-24">
+            <div className="md:w-2/3 text-sm md:text-auto mb-4 md:mt-0 mt-10">
               <p>Overview</p>
               <p>{MovieDetails.overview}</p>
             </div>
           </div>
         </div>
-        <div className="w-11/12">
-          <MovieCast />
-        </div>
+      </div>
+      <div className="w-11/12 text-white">
+        <MovieCast />
       </div>
     </>
   );
