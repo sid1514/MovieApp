@@ -4,7 +4,7 @@ import MovieCard from "../MovieCard/MovieCard";
 
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { selectMovie } from "../state/action";
+import {  selectMovie } from "../state/action";
 
 const Home = () => {
   const Api_key = process.env.REACT_APP_API_KEY;
@@ -32,12 +32,13 @@ const Home = () => {
     console.log(MovieId);
     //const id = MovieId.toString()
     dispatch(selectMovie(MovieId));
+
     nav("/MovieData");
   };
 
   useEffect(() => {
     fetchMovieData();
-  },);
+  });
   return (
     <>
       <div className="flex flex-wrap pt-4 justify-center text-white ">
