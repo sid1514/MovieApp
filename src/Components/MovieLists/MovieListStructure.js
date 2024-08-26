@@ -49,16 +49,16 @@ const MovieListStructure = ({ MovieData, loader }) => {
           />
         ))}
       </div>
-      <div className="flex justify-center pt-3 align-center text-white">
+      <div className="flex justify-center pt-3 align-center text-white ">
         <div className="flex justify-center pt-3 align-center space-x-2">
           <button
             className={`${currentPage === 1 ? "blur-sm" : "none"} `}
             onClick={handlePageChangeback}
             disabled={currentPage === 1}
           >
-            <img src="leftarrow.png" alt="left" className="w-10 h-10" />
+            <img src="leftarrow.png" alt="left" className="w-8 h-8" />
           </button>
-          <p className="border px-2 h-8">{currentPage}</p>
+          <p className="border px-2 h-6 rounded text-sm">{currentPage}</p>
           <button
             onClick={handlePageChange}
             disabled={currentPage === 3}
@@ -67,7 +67,7 @@ const MovieListStructure = ({ MovieData, loader }) => {
             <img
               src="leftarrow.png"
               alt="right"
-              className="rotate-180 w-10 h-10"
+              className="rotate-180 w-8 h-8"
             />
           </button>
         </div>
@@ -75,17 +75,17 @@ const MovieListStructure = ({ MovieData, loader }) => {
       <div className="flex justify-center mt-2">
         <div className="flex space-x-1">
           <div
-            className={`w-4 h-4 rounded-full ${
+            className={`w-2 h-2 rounded-full ${
               currentPage === 1 ? "bg-black" : "bg-white"
             } `}
           ></div>
           <div
-            className={`w-4 h-4 rounded-full ${
+            className={`w-2 h-2 rounded-full ${
               currentPage === 2 ? "bg-black" : "bg-white"
             } `}
           ></div>
           <div
-            className={`w-4 h-4 rounded-full ${
+            className={`w-2 h-2 rounded-full ${
               currentPage === 3 ? "bg-black" : "bg-white"
             } `}
           ></div>
