@@ -1,6 +1,7 @@
 import {
 
   SEARCH_MOVIE,
+  SEARCH_PAGE,
   SELECT_MOVIE,
 } from "./action";
 
@@ -9,6 +10,7 @@ const intialState = {
   MovieName: "",
   movieDetails: null,
   loading: false,
+  searchPage:1,
 };
 
 export const MoveiReducer = (state = intialState, action) => {
@@ -24,7 +26,11 @@ export const MoveiReducer = (state = intialState, action) => {
         MovieName: action.payload,
       };
 
-   
+    case SEARCH_PAGE:
+      return {
+        ...state,
+        searchPage: action.payload,
+      };
     default:
       return state;
   }

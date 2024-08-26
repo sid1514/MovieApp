@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MovieCard from "../MovieCard/MovieCard";
 
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { selectMovie } from "../state/action";
+import axios from "axios";
 
-const MovieListStructure = ({ MovieData, loader }) => {
+const MovieListStructure = ({ MovieData }) => {
   const [currentPage, setCurrentPag] = useState(1);
-
+  const [totalPages, settotalPages] = useState();
   const dispatch = useDispatch();
   const nav = useNavigate();
 
@@ -19,27 +20,45 @@ const MovieListStructure = ({ MovieData, loader }) => {
     nav("/MovieData");
   };
 
-  const lastMovieCard = currentPage * 8;
-  const firstMovieCard = lastMovieCard - 8;
-  const currentMovieList = MovieData.slice(firstMovieCard, lastMovieCard);
+  const Api_key = process.env.REACT_APP_API_KEY;
+
+  const [MoviesListData, setMoviesData] = useState([]);
+  const [loader, setLoader] = useState(false);
+
+  const fetchMovieData = async () => {
+    try {
+      setLoader(true);
+      const { data } = await axios.get(
+        `https://api.themoviedb.org/3/movie/${MovieData}?api_key=${Api_key}&language=en-US&page=${currentPage}`
+      );
+      console.log(data);
+      setMoviesData(data.results);
+      settotalPages(data.total_pages);
+      setLoader(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    fetchMovieData();
+  });
+
   const handlePageChange = () => {
     setCurrentPag(currentPage + 1);
   };
   const handlePageChangeback = () => {
     setCurrentPag(currentPage - 1);
   };
-  //   useEffect(() => {
-  //     fetchMovieData();
-  //   });
+
   return (
     <div>
-      <div className="flex flex-wrap pt-4 justify-center text-white md:h-screen">
+      <div className="flex flex-wrap pt-4 justify-center text-white md:h-full">
         {loader & !MovieData ? (
           <div>
             <img src="Loader.gif" alt="" />
           </div>
         ) : null}
-        {currentMovieList.map((m) => (
+        {MoviesListData.map((m) => (
           <MovieCard
             MovieId={m.id}
             MovieImg={m.poster_path}
@@ -58,11 +77,16 @@ const MovieListStructure = ({ MovieData, loader }) => {
           >
             <img src="leftarrow.png" alt="left" className="w-8 h-8" />
           </button>
-          <p className="border px-2 h-6 rounded text-sm">{currentPage}</p>
+          <div className="flex text-white">
+            <p className=" px-2 h-6 rounded text-sm">{currentPage}</p>
+            <p>.....</p>
+            <p className=" px-2 h-6 rounded text-sm">{totalPages}</p>
+          </div>
+
           <button
             onClick={handlePageChange}
-            disabled={currentPage === 3}
-            className={`${currentPage === 3 ? "blur-sm" : "none"} `}
+            disabled={currentPage === totalPages}
+            className={`${currentPage === totalPages ? "blur-sm" : "none"} `}
           >
             <img
               src="leftarrow.png"
@@ -70,25 +94,6 @@ const MovieListStructure = ({ MovieData, loader }) => {
               className="rotate-180 w-8 h-8"
             />
           </button>
-        </div>
-      </div>
-      <div className="flex justify-center mt-2">
-        <div className="flex space-x-1">
-          <div
-            className={`w-2 h-2 rounded-full ${
-              currentPage === 1 ? "bg-black" : "bg-white"
-            } `}
-          ></div>
-          <div
-            className={`w-2 h-2 rounded-full ${
-              currentPage === 2 ? "bg-black" : "bg-white"
-            } `}
-          ></div>
-          <div
-            className={`w-2 h-2 rounded-full ${
-              currentPage === 3 ? "bg-black" : "bg-white"
-            } `}
-          ></div>
         </div>
       </div>
     </div>
