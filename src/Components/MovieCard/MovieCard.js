@@ -9,7 +9,7 @@ const MovieCard = ({
 }) => {
   return (
     <div
-      className="md:w-[25%] mt-4 md:h-1/5 w-[50%] mb-1 hover:bg-neutral-700 rounded"
+      className="md:w-[25%] mt-4 md:h-min w-[50%] mb-1 hover:bg-neutral-700 rounded"
       onClick={() => showMovieData(MovieId)}
     >
       <div className="flex justify-center align-center">
