@@ -9,25 +9,28 @@ const MovieData = () => {
   const [loader, setLoader] = useState(false);
   const MovieId = useSelector((state) => state.MovieId);
   const Api_key = process.env.REACT_APP_API_KEY;
+
   const fetchSelctedMovie = async () => {
     try {
       setLoader(true);
       const { data } = await axios.get(
         `https://api.themoviedb.org/3/movie/${MovieId}?api_key=${Api_key}&language=en-US`
       );
-     
+
       setMovieDetails(data);
-      setMovieGenres(data.genres)
+      setMovieGenres(data.genres);
       setLoader(false);
     } catch (error) {
       console.log(error);
     }
   };
- console.log(MovieGenres);
+  
   useEffect(() => {
     fetchSelctedMovie();
   }, []);
-
+  const dateObject = new Date(MovieDetails.release_date);
+  const formattedDate = dateObject.toDateString();
+  const rating = MovieDetails.vote_average;
   return (
     <>
       <div className="w-11/12 h-full text-white md:p-4 bg-gradient-to-r from-neutral-700 via-neutral-800 to-neutral-900 p-2">
@@ -55,11 +58,11 @@ const MovieData = () => {
                     {MovieDetails.original_title}
                   </p>
                   <p className="pt-2 text-blue-500 font-semibold text-sm md:text-auto">
-                    Rating: {MovieDetails.vote_average}
+                    Rating: {rating}
                   </p>
                   <div className="flex ">
                     <p className="pt-3 text-sm md:text-auto mr-1">
-                      {MovieDetails.runtime} min  |
+                      {MovieDetails.runtime} min |
                     </p>
                     {MovieGenres.map((g) => (
                       <p className="pt-3 text-sm "> {g.name},</p>
@@ -67,7 +70,7 @@ const MovieData = () => {
                   </div>
 
                   <p className="pt-3 text-sm md:text-auto">
-                    Release date:{MovieDetails.release_date}
+                    Release date: {formattedDate}
                   </p>
                 </div>
               </div>

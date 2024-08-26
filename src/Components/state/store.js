@@ -1,4 +1,5 @@
-import { createStore } from "redux";
+import {  createStore } from "redux";
 import { MoveiReducer } from "./reducer";
 
-export const store=createStore(MoveiReducer)
+
+export const store = createStore(MoveiReducer);
