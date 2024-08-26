@@ -24,7 +24,7 @@ const SearchMovie = () => {
         `https://api.themoviedb.org/3/search/movie?api_key=${Api_key}&language=en-US&query=${searchName}&page=${currentPage}`
       );
       setMovieData(data.results);
-      settotalPages(data.total_pages)
+      settotalPages(data.total_pages);
       console.log(data);
       setLoader(false);
     } catch (error) {
