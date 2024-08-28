@@ -12,19 +12,21 @@ const MovieData = () => {
 
   const fetchSelctedMovie = async () => {
     try {
-      setLoader(true);
-      const { data } = await axios.get(
-        `https://api.themoviedb.org/3/movie/${MovieId}?api_key=${Api_key}&language=en-US`
-      );
+      if (MovieId) {
+        setLoader(true);
+        const { data } = await axios.get(
+          `https://api.themoviedb.org/3/movie/${MovieId}?api_key=${Api_key}&language=en-US`
+        );
 
-      setMovieDetails(data);
-      setMovieGenres(data.genres);
-      setLoader(false);
+        setMovieDetails(data);
+        setMovieGenres(data.genres);
+        setLoader(false);
+      }
     } catch (error) {
       console.log(error);
     }
   };
-  
+
   useEffect(() => {
     fetchSelctedMovie();
   }, []);

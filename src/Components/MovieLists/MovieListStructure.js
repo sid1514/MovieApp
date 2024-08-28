@@ -13,7 +13,7 @@ const MovieListStructure = ({ MovieData }) => {
   const nav = useNavigate();
 
   const showMovieData = (MovieId) => {
-    console.log(MovieId);
+    //console.log(MovieId);
     //const id = MovieId.toString()
     dispatch(selectMovie(MovieId));
 
@@ -31,7 +31,7 @@ const MovieListStructure = ({ MovieData }) => {
       const { data } = await axios.get(
         `https://api.themoviedb.org/3/movie/${MovieData}?api_key=${Api_key}&language=en-US&page=${currentPage}`
       );
-      console.log(data);
+      //console.log(data);
       setMoviesData(data.results);
       settotalPages(data.total_pages);
       setLoader(false);
@@ -42,7 +42,7 @@ const MovieListStructure = ({ MovieData }) => {
   };
   useEffect(() => {
     fetchMovieData();
-  }, [currentPage, MoviesListData]);
+  }, [currentPage, MovieData]);
 
   const handlePageChange = () => {
     if (currentPage < totalPages) {
