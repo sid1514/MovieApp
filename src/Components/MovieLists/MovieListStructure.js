@@ -7,7 +7,7 @@ import { selectMovie } from "../state/action";
 import axios from "axios";
 
 const MovieListStructure = ({ MovieData }) => {
-  const [currentPage, setCurrentPag] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, settotalPages] = useState();
   const dispatch = useDispatch();
   const nav = useNavigate();
@@ -36,24 +36,29 @@ const MovieListStructure = ({ MovieData }) => {
       settotalPages(data.total_pages);
       setLoader(false);
     } catch (error) {
+      setLoader(false);
       console.log(error);
     }
   };
   useEffect(() => {
     fetchMovieData();
-  });
+  }, [currentPage, MoviesListData]);
 
   const handlePageChange = () => {
-    setCurrentPag(currentPage + 1);
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1); // Corrected typo: setCurrentPag -> setCurrentPage
+    }
   };
   const handlePageChangeback = () => {
-    setCurrentPag(currentPage - 1);
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1); // Corrected typo: setCurrentPag -> setCurrentPage
+    }
   };
 
   return (
     <div>
       <div className="flex flex-wrap pt-4 justify-center text-white md:h-full">
-        {loader & !MovieData ? (
+        {loader & !MoviesListData.length ? (
           <div>
             <img src="Loader.gif" alt="" />
           </div>
