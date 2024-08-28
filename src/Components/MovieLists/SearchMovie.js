@@ -38,7 +38,7 @@ const SearchMovie = () => {
     if (searchName) {
       handleMovieSearch();
     }
-  });
+  }, [searchName, currentPage]);
   const showMovieData = (MovieId) => {
     console.log(MovieId);
     //const id = MovieId.toString()
